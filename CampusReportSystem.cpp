@@ -42,7 +42,7 @@ public:
     //----------------------------上面代码都不要动，DONT NOT change above code------------------------------
 
 
-    void TestDataSet()//方便测试用的数据，最后可保留，也可不保留
+    void TestDataSet()//方便测试用的数据，保留，  original test dataset, keep
     {
         Ticket t1;
         t1.TicketID = 6;
@@ -247,8 +247,52 @@ public:
     //Part C: 1. Sort tickets by Priority (descending)  数字越大越重要   2. Sort tickets by Reporter Name (ascending)
     void SortByPriority() //Desc     
     {
-       
-        
+        if (head == nullptr)
+    {
+        cout << "No tickets available.\n";
+        return;
+    }
+
+    // 1. Copy data from linked list to array
+    Ticket arr[100];
+    int count = 0;
+
+    Node* curr = head;
+    while (curr != nullptr)
+    {
+        arr[count++] = curr->data;
+        curr = curr->next;
+    }
+
+    // 2. Selection sort by Priority (Descending)
+    for (int i = 0; i < count - 1; i++)
+    {
+        int maxIndex = i;
+        for (int j = i + 1; j < count; j++)
+        {
+            if (arr[j].Priority > arr[maxIndex].Priority)
+            {
+                maxIndex = j;
+            }
+        }
+
+        if (maxIndex != i)
+        {
+            Ticket temp = arr[i];
+            arr[i] = arr[maxIndex];
+            arr[maxIndex] = temp;
+        }
+    }
+
+    // 3. Display result
+    cout << "\n[Report: Sort by Priority (Descending)]\n";
+    for (int i = 0; i < count; i++)
+    {
+        cout << "ID: " << arr[i].TicketID
+             << ", Name: " << arr[i].ReportName
+             << ", Priority: " << arr[i].Priority
+             << endl;
+    }
 
 
     }
@@ -256,9 +300,58 @@ public:
 
     void SortByName()//Asc
     {
-
-
+       
+         if (head == nullptr)
+    {
+        cout << "No tickets available.\n";
+        return;
     }
+
+    // 1. Copy data from linked list to array
+    Ticket arr[100];
+    int count = 0;
+
+    Node* curr = head;
+    while (curr != nullptr)
+    {
+        arr[count++] = curr->data;
+        curr = curr->next;
+    }
+
+    // 2. Selection sort by ReportName (Ascending A-Z)
+    for (int i = 0; i < count - 1; i++)
+    {
+        int minIndex = i;
+        for (int j = i + 1; j < count; j++)
+        {
+            if (arr[j].ReportName < arr[minIndex].ReportName)
+            {
+                minIndex = j;
+            }
+        }
+
+        if (minIndex != i)
+        {
+            Ticket temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+
+    // 3. Display result
+    cout << "\n[Report: Sort by Reporter Name (Ascending)]\n";
+    for (int i = 0; i < count; i++)
+    {
+        cout << "ID: " << arr[i].TicketID
+             << ", Name: " << arr[i].ReportName
+             << ", Priority: " << arr[i].Priority
+             
+             << endl;
+    }
+    }
+
+
+
 
 
 
@@ -601,13 +694,14 @@ int main()//部分功能被我打了注释，如果要用取消注释,且功能�
 
                 if (sub == 1) {             //这边要加入排序功能
                     // TODO: 队友实现
-                    // system.ReportByPriority();
-                    cout << "[Report by Priority not implemented yet]\n";
+                    system.SortByPriority();
+                   // system.Display();
+                    
                 }
                 else if (sub == 2) {
                     // TODO: 队友实现        //这边要加入排序功能
-                    // system.ReportByRequesterName();
-                    cout << "[Report by Requester Name not implemented yet]\n";
+                    system.SortByName();
+                    //system.Display();
                 }
 
             } while (sub != 0);
