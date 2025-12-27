@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <string>
 using namespace std;
 
 struct Ticket
@@ -14,7 +15,7 @@ struct Ticket
     string Category;
     string Description;
     string CreatedTime;
-
+    string Status;
 
 };
 
@@ -23,7 +24,6 @@ struct Node
 {
     Ticket data;
     Node* next = nullptr;
-
 
 };
 
@@ -39,10 +39,10 @@ public:
     }
 
 
-    //----------------------------上面代码都不要动，DONT NOT change above code------------------------------
+    //----------------------------ÉÏÃæ´úÂë¶¼²»Òª¶¯£¬DONT NOT change above code------------------------------
 
 
-    void TestDataSet()//方便测试用的数据，保留，  original test dataset, keep
+    void TestDataSet()//·½±ã²âÊÔÓÃµÄÊý¾Ý£¬±£Áô£¬  original test dataset, keep
     {
         Ticket t1;
         t1.TicketID = 6;
@@ -52,6 +52,7 @@ public:
         t1.Category = "Network";
         t1.Description = "Internet connection unstable";
         t1.CreatedTime = "2025-01-01";
+        t1.Status = "Open";
         InsertSorted(t1);
 
         Ticket t2;
@@ -62,6 +63,7 @@ public:
         t2.Category = "Facilities";
         t2.Description = "Air-conditioner not working";
         t2.CreatedTime = "2025-01-02";
+        t2.Status = "In Progress";
         InsertSorted(t2);
 
         Ticket t3;
@@ -72,6 +74,7 @@ public:
         t3.Category = "Equipment";
         t3.Description = "Projector flickering";
         t3.CreatedTime = "2025-01-03";
+        t3.Status = "In Progress";
         InsertSorted(t3);
 
         Ticket t4;
@@ -82,20 +85,21 @@ public:
         t4.Category = "Network";
         t4.Description = "Cannot access system";
         t4.CreatedTime = "2025-01-04";
+        t4.Status = "Resolved";
         InsertSorted(t4);
     }
 
     //2. For new ticket insertion, insert ticket in sorted order by Ticket ID(ascending).  
-    //根据ID升序排序
+    //¸ù¾ÝIDÉýÐòÅÅÐò
 
-    void InsertSorted(Ticket newTicket)//finished , DO NOT modify，  已经完成,非必要不修改
+    void InsertSorted(Ticket newTicket)//finished , DO NOT modify£¬  ÒÑ¾­Íê³É,·Ç±ØÒª²»ÐÞ¸Ä
     {
         Node* newNode = new Node;
         newNode->data = newTicket;
 
 
         //empty head or ID smaller than head ,  use head insert
-        // 头指针为空 或者小于node里的元素
+        // Í·Ö¸ÕëÎª¿Õ »òÕßÐ¡ÓÚnodeÀïµÄÔªËØ
         if (head == nullptr || newTicket.TicketID <= head->data.TicketID)
         {
             newNode->next = head;
@@ -104,7 +108,7 @@ public:
         }
 
 
-        //双指针比较插入，two ptrs insert
+        //Ë«Ö¸Õë±È½Ï²åÈë£¬two ptrs insert
         Node* curr = head;
         Node* prev = nullptr;
 
@@ -125,8 +129,8 @@ public:
 
 
     // 3. For ticket deletion, remove by Ticket ID
-    //根据ID来删除
-    void Delete(int targetID) //-----------已经完成,非必要不要修改
+    //¸ù¾ÝIDÀ´É¾³ý
+    void Delete(int targetID) //-----------ÒÑ¾­Íê³É,·Ç±ØÒª²»ÒªÐÞ¸Ä
     {
 
         //head empty
@@ -140,7 +144,7 @@ public:
         //if head is to be deleted
         if (targetID == head->data.TicketID)
         {
-            Node* temp = head;//temp存储head
+            Node* temp = head;//temp´æ´¢head
             head = head->next;
             delete temp;
 
@@ -154,20 +158,20 @@ public:
         Node* prev = nullptr;
         Node* curr = head;
 
-        while (curr != nullptr && curr->data.TicketID != targetID)//不空，不同直接往后找
+        while (curr != nullptr && curr->data.TicketID != targetID)//²»¿Õ£¬²»Í¬Ö±½ÓÍùºóÕÒ
         {
             prev = curr;
             curr = curr->next;
         }
 
-        if (curr == nullptr)//没找到
+        if (curr == nullptr)//Ã»ÕÒµ½
         {
             cout << "The ticket is not found." << endl;
             return;
 
         }
 
-        //找到了，删除节点
+        //ÕÒµ½ÁË£¬É¾³ý½Úµã
         prev->next = curr->next;
         delete curr;
 
@@ -177,7 +181,7 @@ public:
 
     //Part B:  search by Ticket ID or reporter name
     //Part B:  search by Ticket ID or reporter name
-    void SearchByID(int targetID) //sequential search  已经完成，不要修改
+    void SearchByID(int targetID) //sequential search  ÒÑ¾­Íê³É£¬²»ÒªÐÞ¸Ä
     {
         Node* temp = head;
 
@@ -203,12 +207,13 @@ public:
             cout << "The Problem Category is: " << temp->data.Category << endl;
             cout << "Problem Description: " << temp->data.Description << endl;
             cout << "Ticket Created Time: " << temp->data.CreatedTime << endl;
+            cout << "Status: " << temp->data.Status << endl;
         }
 
     }
 
 
-    void SearchByName(string reportName)//sequential search  已经完成，不要修改
+    void SearchByName(string reportName)//sequential search  ÒÑ¾­Íê³É£¬²»ÒªÐÞ¸Ä
     {
         Node* temp = head;
 
@@ -237,14 +242,13 @@ public:
             cout << "The Problem Category is: " << temp->data.Category << endl;
             cout << "Problem Description: " << temp->data.Description << endl;
             cout << "Ticket Created Time: " << temp->data.CreatedTime << endl;
-
-
+            cout << "Status: " << temp->data.Status << endl;
         }
     }
 
 
-    //Part C: 1. Sort tickets by Priority (descending)  数字越大越重要   2. Sort tickets by Reporter Name (ascending)
-    //Part C: 1. Sort tickets by Priority (descending)  数字越大越重要   2. Sort tickets by Reporter Name (ascending)
+    //Part C: 1. Sort tickets by Priority (descending)  Êý×ÖÔ½´óÔ½ÖØÒª   2. Sort tickets by Reporter Name (ascending)
+    //Part C: 1. Sort tickets by Priority (descending)  Êý×ÖÔ½´óÔ½ÖØÒª   2. Sort tickets by Reporter Name (ascending)
     void SortByPriority() //Desc     
     {
         if (head == nullptr)
@@ -368,6 +372,8 @@ public:
     struct Action {
         ActionType type;
         Ticket ticketBackup;
+        int ticketID;
+        string oldStatus;
     };
 
     // Linked List Implementation of STACK
@@ -413,8 +419,8 @@ public:
 
     ActionStack undoStack; //Undo Stack that stack action objects
 
-    //Add action被UNDO的时候, 就是delete被添加的ticket
-    //所以 AddTicketUndo function把这个action type存进stack
+    //Add action±»UNDOµÄÊ±ºò, ¾ÍÊÇdelete±»Ìí¼ÓµÄticket
+    //ËùÒÔ AddTicketUndo function°ÑÕâ¸öaction type´æ½østack
     //When undo function run, action type = ADD, lead to delete ticket
     void AddTicketUndo(Ticket t) //push add action into undo stack
     {
@@ -427,11 +433,11 @@ public:
         undoStack.push(add_act);
     }
 
-    //Delete action被UNDO的时候, 就是把删掉的ticket加回去
-    //所以 DeleteTicketUndo function把这个action type存进stack
+    //Delete action ±»UNDOµÄÊ±ºò, ¾ÍÊÇ°ÑÉ¾µôµÄticket¼Ó»ØÈ¥
+    //ËùÒÔ DeleteTicketUndo function°ÑÕâ¸öaction type´æ½østack
     //When undo function run, action type = DELETE, lead to add ticket WITH backup ticket data
 
-    bool BackupTicket(int id, Ticket& backup) //备份ticket data, when undo, copy to add back
+    bool BackupTicket(int id, Ticket& backup) //±¸·Ýticket data, when undo, copy to add back
     {
         Node* temp = head;
         while (temp != nullptr) {
@@ -460,6 +466,38 @@ public:
         undoStack.push(d_act);
     }
 
+    Node* FindNode(int id)
+    {
+    Node* curr = head;
+    while (curr != nullptr)
+    {
+        if (curr->data.TicketID == id)
+            return curr;
+        curr = curr->next;
+    }
+    return nullptr;
+    }
+
+    void UpdateTicketUndo(int id, string newStatus)
+    {
+    Node* node = FindNode(id);
+    if (node == nullptr)
+    {
+        cout << "Ticket not found.\n";
+        return;
+    }
+
+    Action act;
+    act.type = UPDATE;
+    act.ticketID = id;
+    act.oldStatus = node->data.Status;   // save old status
+
+    undoStack.push(act);   // your own stack implementation
+
+    node->data.Status = newStatus;
+    cout << "Ticket status updated.\n";
+    }
+
     void Undo() {
 
         if (undoStack.isEmpty()) {
@@ -479,15 +517,19 @@ public:
             InsertSorted(last.ticketBackup);    // Undo Delete Ticket = Add back Ticket
             cout << "Successfully undo Delete action.\n";
         }
-
+        else if (last.type == UPDATE)
+        {
+            Node* node = FindNode(last.ticketID);
+    		if (node != nullptr)
+    		{
+        	node->data.Status = last.oldStatus;
+        	cout << "Successfully undo Update action.\n";
+    		}
+		}
     }
 
 
-
-
-
-
-    void Display()//Finished , DON NOT  modify,完成,可能后续要修改
+    void Display()//Finished , DON NOT  modify,Íê³É,¿ÉÄÜºóÐøÒªÐÞ¸Ä
     {
 
         Node* temp = head;
@@ -499,7 +541,7 @@ public:
             cout << "There is no information." << endl;
         }
 
-        while (temp != nullptr)//输出ID和名字
+        while (temp != nullptr)//Êä³öIDºÍÃû×Ö
         {
             cout << "Ticket ID: " << temp->data.TicketID << endl;
             cout << "Name: " << temp->data.ReportName << endl;
@@ -508,6 +550,7 @@ public:
             cout << "The Problem Category is: " << temp->data.Category << endl;
             cout << "Problem Description: " << temp->data.Description << endl;
             cout << "Ticket Created Time: " << temp->data.CreatedTime << endl;
+            cout << "Status: " << temp->data.Status << endl;
             temp = temp->next;
             cout << "------------------------------" << endl;
 
@@ -519,12 +562,12 @@ public:
 };
 
 
-int main()//部分功能被我打了注释，如果要用取消注释,且功能不全,
+int main()
 
 {
     LinkedList system;
 
-    system.TestDataSet();//测试集数据
+    system.TestDataSet();
 
     int choice;
 
@@ -563,11 +606,33 @@ int main()//部分功能被我打了注释，如果要用取消注释,且功能�
                     cin >> t.ReportName;
                     cout << "Enter the Prioriry:";
                     cin >> t.Priority;
+                    cin.ignore();
+                  
+                    cout << "Enter the Location: ";
+                     getline(cin, t.Location);
 
-                    //从InsertSorted()换成这个因为要记录add action in undo stack
+                     cout << "Enter the Category: ";
+                     getline(cin, t.Category);
+
+                      cout << "Enter the Description: ";
+                     getline(cin, t.Description); 
+
+                     cout << "Enter the Time: ";
+                      getline(cin, t.CreatedTime);
+
+                       cout << "Enter the Status: ";
+                      getline(cin, t.Status);
+
                     system.AddTicketUndo(t);
-                    system.Display();
+                     cout << "\nTicket added successfully!\n";
+
+                    //´ÓInsertSorted()»»³ÉÕâ¸öÒòÎªÒª¼ÇÂ¼add action in undo stack
+                    system.AddTicketUndo(t);
+                    cout << endl;
                 }
+                if (sub !=1 && sub !=0)
+                   cout << "Please enter a valid choice.";
+                cout << endl; 
 
             } while (sub != 0);
             break;
@@ -589,10 +654,13 @@ int main()//部分功能被我打了注释，如果要用取消注释,且功能�
                     cout << "Enter Ticket ID to delete: ";
                     cin >> id;
 
-                    //从Delete()换成这个因为要记录delete action in undo stack & backup ticket data
+                    //´ÓDelete()»»³ÉÕâ¸öÒòÎªÒª¼ÇÂ¼delete action in undo stack & backup ticket data
                     system.DeleteTicketUndo(id);
-                    system.Display();
+                    cout << endl;
                 }
+                if (sub !=1 && sub !=0)
+                   cout << "Please enter a valid choice.";
+                cout << endl; 
 
             } while (sub != 0);
             break;
@@ -626,7 +694,9 @@ int main()//部分功能被我打了注释，如果要用取消注释,且功能�
 
                     system.SearchByName(name);
                 }
-
+                if (sub != 1 && sub != 0 && sub != 2)
+                   cout << "Please enter a valid choice.";
+                cout << endl; 
 
             } while (sub != 0);
             break;
@@ -649,14 +719,16 @@ int main()//部分功能被我打了注释，如果要用取消注释,且功能�
                     cout << "Enter Ticket ID: ";
                     cin >> id;
                     cout << "Enter new status: ";
-                    cin >> status;
+                    cin.ignore();
+					getline(cin, status);
 
-                    // 可先只改 status，不接 stack
-                   // system.UpdateStatusByID(id, status);//功能被注释了
-
-                    system.Display();
+                   	system.UpdateTicketUndo(id, status);
+					cout << endl;
                 }
-
+                
+                if (sub !=1 && sub !=0)
+                   cout << "Please enter a valid choice.";
+                cout << endl; 
             } while (sub != 0);
             break;
         }
@@ -675,6 +747,9 @@ int main()//部分功能被我打了注释，如果要用取消注释,且功能�
                 if (sub == 1) {
                     system.Display();
                 }
+                if (sub !=1 && sub !=0)
+                   cout << "Please enter a valid choice.";
+                cout << endl; 
 
             } while (sub != 0);
             break;
@@ -692,17 +767,20 @@ int main()//部分功能被我打了注释，如果要用取消注释,且功能�
                 cout << "Choose: ";
                 cin >> sub;
 
-                if (sub == 1) {             //这边要加入排序功能
-                    // TODO: 队友实现
+                if (sub == 1) {             //Õâ±ßÒª¼ÓÈëÅÅÐò¹¦ÄÜ
+                    // TODO: ¶ÓÓÑÊµÏÖ
                     system.SortByPriority();
                    // system.Display();
                     
                 }
                 else if (sub == 2) {
-                    // TODO: 队友实现        //这边要加入排序功能
+                    // TODO: ¶ÓÓÑÊµÏÖ        //Õâ±ßÒª¼ÓÈëÅÅÐò¹¦ÄÜ
                     system.SortByName();
                     //system.Display();
                 }
+                if (sub !=1 && sub !=0 && sub != 2)
+                   cout << "Please enter a valid choice.";
+                cout << endl; 
 
             } while (sub != 0);
 
@@ -725,6 +803,9 @@ int main()//部分功能被我打了注释，如果要用取消注释,且功能�
                     system.Undo(); //Undo last action in the stack
 
                 }
+                if (sub !=1 && sub !=0)
+                   cout << "Please enter a valid choice.";
+                cout << endl; 
 
             } while (sub != 0);
             break;
@@ -742,6 +823,3 @@ int main()//部分功能被我打了注释，如果要用取消注释,且功能�
 
     return 0;
 }
-
-
-
